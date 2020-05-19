@@ -43,7 +43,7 @@ static NSString *const kBundleName = @"FirebaseGoogleAuthUI";
  */
 static NSString *const kSignInWithGoogle = @"SignInWithGoogle";
 
-@interface FUIGoogleAuth () <GIDSignInDelegate>
+@interface FUIGoogleAuth () <GIDSignInDelegate, GIDSignInUIDelegate>
 @end
 @implementation FUIGoogleAuth {
   /** @var _presentingViewController
@@ -125,7 +125,6 @@ static NSString *const kSignInWithGoogle = @"SignInWithGoogle";
   _presentingViewController = presentingViewController;
 
   GIDSignIn *signIn = [self configuredGoogleSignIn];
-  signIn.presentingViewController = presentingViewController;
   _pendingSignInCallback = ^(FIRAuthCredential *_Nullable credential,
                              NSError *_Nullable error,
                              _Nullable FIRAuthResultCallback result,
@@ -147,7 +146,7 @@ static NSString *const kSignInWithGoogle = @"SignInWithGoogle";
 
 - (BOOL)handleOpenURL:(NSURL *)URL sourceApplication:(NSString *)sourceApplication {
   GIDSignIn *signIn = [self configuredGoogleSignIn];
-  return [signIn handleURL:URL];
+  return [signIn handleURL:URL sourceApplication:sourceApplication annotation:nil];
 }
 
 - (NSString *)email {
@@ -186,6 +185,16 @@ static NSString *const kSignInWithGoogle = @"SignInWithGoogle";
   }];
 }
 
+#pragma mark - GIDSignInUIDelegate methods
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+  [_presentingViewController presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+  [_presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Helpers
 
 /** @fn configuredGoogleSignIn
@@ -195,6 +204,7 @@ static NSString *const kSignInWithGoogle = @"SignInWithGoogle";
 - (GIDSignIn *)configuredGoogleSignIn {
   GIDSignIn *signIn = [GIDSignIn sharedInstance];
   signIn.delegate = self;
+  signIn.uiDelegate = self;
   signIn.shouldFetchBasicProfile = YES;
   signIn.clientID = [[FIRApp defaultApp] options].clientID;
   signIn.scopes = _scopes;

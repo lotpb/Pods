@@ -32,6 +32,11 @@
 
 @implementation FBSDKGraphErrorRecoveryProcessor
 
+- (void)dealloc
+{
+
+}
+
 - (BOOL)processError:(NSError *)error request:(FBSDKGraphRequest *)request delegate:(id<FBSDKGraphErrorRecoveryProcessorDelegate>)delegate
 {
   self.delegate = delegate;

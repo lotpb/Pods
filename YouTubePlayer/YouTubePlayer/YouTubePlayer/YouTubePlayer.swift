@@ -162,31 +162,31 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: Player controls
     
     open func mute() {
-        evaluatePlayerCommand("mute()")
+        //evaluatePlayerCommand("mute()")
     }
     
     open func unMute() {
-        evaluatePlayerCommand("unMute()")
+        //evaluatePlayerCommand("unMute()")
     }
     
     open func play() {
-        evaluatePlayerCommand("playVideo()")
+        //evaluatePlayerCommand("playVideo()")
     }
     
     open func pause() {
-        evaluatePlayerCommand("pauseVideo()")
+        //evaluatePlayerCommand("pauseVideo()")
     }
     
     open func stop() {
-        evaluatePlayerCommand("stopVideo()")
+        //evaluatePlayerCommand("stopVideo()")
     }
     
     open func clear() {
-        evaluatePlayerCommand("clearVideo()")
+        //evaluatePlayerCommand("clearVideo()")
     }
     
     open func seekTo(_ seconds: Float, seekAhead: Bool) {
-        evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
+        //evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
     
     open func getDuration() -> String? {
@@ -200,11 +200,11 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: Playlist controls
     
     open func previousVideo() {
-        evaluatePlayerCommand("previousVideo()")
+        //evaluatePlayerCommand("previousVideo()")
     }
     
     open func nextVideo() {
-        evaluatePlayerCommand("nextVideo()")
+        //evaluatePlayerCommand("nextVideo()")
     }
     
     fileprivate func evaluatePlayerCommand(_ command: String) -> String? {
@@ -281,7 +281,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
             let jsonData = try JSONSerialization.data(withJSONObject: object, options: JSONSerialization.WritingOptions.prettyPrinted)
             
             // Succeeded
-            return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as String?
+            return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)! as String
             
         } catch let jsonError {
             
